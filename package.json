@@ -1,0 +1,24 @@
+{
+  "name": "DIscord",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/bot.js",
+    "dev": "nodemon -e ts --exec \"npm run build && npm run start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^14.11.2",
+    "discord.js": "^12.3.1"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.3"
+  }
+}
