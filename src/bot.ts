@@ -45,12 +45,12 @@ client.on("message", async (message: Message) => {
 
   if (message.content.startsWith(`${prefix}dispositivos`)) {
     const rows = await listDevices();
-    // @ts-ignore
-    if (rows.length) {
+
+    if (rows?.length) {
       let devices =
         "Dispositivo, OS: \n Los dispositivos que tenemos son los siguientes:\n";
-      // @ts-ignore
-      rows.map((row: any) => {
+
+      rows?.map((row: any) => {
         devices += `${row[0]}, ${row[1]} \n`;
       });
       message.reply(devices);

@@ -1,6 +1,5 @@
 import fs from "fs";
 import readline from "readline";
-
 import { google } from "googleapis";
 
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
