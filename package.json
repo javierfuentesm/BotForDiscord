@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/bot.js",
-    "dev": "nodemon -e ts --exec \"npm run build && npm run start\""
+    "start2": "node dist/sheet.js",
+    "dev": "nodemon -e ts --exec \"npm run build && npm run start\"",
+    "dev2": "nodemon -e ts --exec \"npm run build && npm run start2\""
   },
   "keywords": [],
   "author": "",
