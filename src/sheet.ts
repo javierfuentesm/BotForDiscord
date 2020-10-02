@@ -19,6 +19,31 @@ export async function listDevices() {
   }
 }
 
+export async function listProjects() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  const rows = await sheets.spreadsheets.values.get({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: "Proyectos!A2:A",
+  });
+
+  if (rows) {
+    return rows.data.values;
+  }
+}
+export async function listFAQ() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  const rows = await sheets.spreadsheets.values.get({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: "FAQ!A2:B",
+  });
+
+  if (rows) {
+    return rows.data.values;
+  }
+}
+
 async function authorize(cred: any) {
   const { client_secret, client_id, redirect_uris } = cred.installed;
   const oAuth2Client = new google.auth.OAuth2(
