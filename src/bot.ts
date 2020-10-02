@@ -2,7 +2,7 @@ import { config } from "dotenv";
 config();
 import { Client, DMChannel, Message } from "discord.js";
 import { prefix } from "./config.json";
-import { listDevices, listFAQ, listProjects } from "./sheet";
+import { listDevices, listFAQ, listProjects, listCompetencias } from "./sheet";
 
 const client: Client = new Client();
 
@@ -70,25 +70,79 @@ client.on("message", async (message: Message) => {
       console.log("No data found.");
     }
   }
+  if (message.content.startsWith(`${prefix}recurso`)) {
+    if (message.member?.hasPermission(["KICK_MEMBERS"])) {
+      const rows = await listCompetencias();
+      const parametros = message.content.toUpperCase().split(" ");
+      console.log(parametros);
+
+      if (
+        rows?.length &&
+        rows?.map((row) => row[0].includes(parametros[1])).includes(true)
+      ) {
+        // @ts-ignore
+        const personas = rows?.filter((row) =>
+          row.find((element) => element.includes(parametros[1]))
+        );
+        const encabezados = rows[0];
+        let respuesta =
+          "Esta persona cumple con el nombre que has ingresado: \n";
+        personas?.forEach((persona: any, index: number) => {
+          // @ts-ignore
+          persona.forEach((habilidad: any, index: any) => {
+            respuesta += `${encabezados[index]} : ${persona[index]} \n`;
+          });
+          if (respuesta.length <= 2000) {
+            message.reply(respuesta);
+          } else {
+            message.reply(
+              `La información de ${persona[0]} es tan larga que no puede ser impresa`
+            );
+          }
+          respuesta =
+            "Esta persona tambien cumple con los criterios de búsqueda: \n";
+        });
+      } else {
+        message.reply("No pude encontrar a nadie con ese nombre");
+      }
+    } else {
+      message.reply(
+        "No tienes permisos para consultar información de los recursos"
+      );
+    }
+  }
   if (message.content.startsWith(`${prefix}FAQ`)) {
-    const words = message.content.split(" ");
+    const parametros = message.content.split(" ");
     const rows = await listFAQ();
     // @ts-ignore
     const numeroPreguntas = +rows?.length;
     if (rows?.length) {
-      if (words[1].includes("todo")) {
-        let preguntas = "Todas la preguntas que te puedo contestar son: \n";
-        rows?.forEach((row: any, index: number) => {
-          preguntas += `${index + 1} - ${row[0]}\n`;
-        });
-        message.reply(preguntas);
-      } else if (+words[1] <= numeroPreguntas && +words[1] > 0) {
-        message.reply(` ${rows[+words[1] - 1][1]}`);
-      } else if (+words[1] > numeroPreguntas || +words[1] === 0) {
-        message.reply("No hay ninguna opción de las que seleccionaste");
+      if (parametros[1]) {
+        if (parametros[1].includes("todo")) {
+          let preguntas = "Todas la preguntas que te puedo contestar son: \n";
+          rows?.forEach((row: any, index: number) => {
+            preguntas += `${index + 1} - ${row[0]}\n`;
+          });
+          message.reply(preguntas);
+        } else if (+parametros[1] <= numeroPreguntas && +parametros[1] > 0) {
+          message.reply(` ${rows[+parametros[1] - 1][1]}`);
+        } else if (+parametros[1] > numeroPreguntas || +parametros[1] === 0) {
+          message.reply(
+            "No hay ninguna opción de las que seleccionaste si quieres ver toda la lista de FAQ solo teclea '?FAQ todo' "
+          );
+        } else {
+          let respuesta =
+            "No entendí tu pregunta pero aqui estan todas las preguntas que podemos contestar : \n";
+          rows?.forEach((row: any, index: number) => {
+            respuesta += `${index + 1} - ${row[0]}\n`;
+          });
+          respuesta +=
+            "Puedes preguntar usando ?FAQ seguido del número de la pregunta de la cual deseas que te conteste";
+          message.reply(respuesta);
+        }
       } else {
         let respuesta =
-          "No entendí tu pregunta pero aqui estan todas las preguntas que podemos contestar : \n";
+          "No me mandaste ninguna pregunta aquí estan las preguntas que estan en mi Base de datos : \n";
         rows?.forEach((row: any, index: number) => {
           respuesta += `${index + 1} - ${row[0]}\n`;
         });

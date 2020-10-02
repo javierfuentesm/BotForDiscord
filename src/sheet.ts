@@ -44,6 +44,19 @@ export async function listFAQ() {
   }
 }
 
+export async function listCompetencias() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  const rows = await sheets.spreadsheets.values.get({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: "Competencias!A2:BB",
+  });
+
+  if (rows) {
+    return rows.data.values;
+  }
+}
+
 async function authorize(cred: any) {
   const { client_secret, client_id, redirect_uris } = cred.installed;
   const oAuth2Client = new google.auth.OAuth2(
