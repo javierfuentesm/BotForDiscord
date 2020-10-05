@@ -71,7 +71,8 @@ client.on("message", async (message: Message) => {
     }
   }
   if (message.content.startsWith(`${prefix}recurso`)) {
-    if (message.member?.hasPermission(["KICK_MEMBERS"])) {
+    // @ts-ignore
+    if (message.member?._roles?.includes("762744622467776522")) {
       const rows = await listCompetencias();
       const parametros = message.content.toUpperCase().split(" ");
       console.log(parametros);
