@@ -2,14 +2,40 @@ import { config } from "dotenv";
 config();
 import { Client, DMChannel, Message } from "discord.js";
 import { prefix } from "./config.json";
-import { listDevices, listFAQ, listProjects, listCompetencias } from "./sheet";
+import {
+  listDevices,
+  listFAQ,
+  listProjects,
+  listCompetencias,
+  listRecursos,
+} from "./sheet";
 
 const client: Client = new Client();
 
 client.on("ready", () => {
   console.log("Bot is ready");
-});
+  async function birthDays() {
+    const recursos = await listRecursos();
+    const today = new Date();
+    const mes = today.getMonth() + 1;
+    const dia = today.getDate();
+    const fecha = dia + "/" + mes + "/";
+    const birthdays = recursos?.filter((recurso) => recurso[3].includes(fecha));
 
+    const anuncios = client.channels.cache.find(
+      // @ts-ignore
+      (channel) => channel?.name === "anuncios"
+    );
+    birthdays?.forEach((birthday) =>
+      // @ts-ignore
+      anuncios?.send(
+        `@here Estas son las mañanitas que cantaba el rey David .....Feliz cumpleaños a ${birthday[0]}  no te preocupes no diremos cuantos cumples 🙊🙊`
+      )
+    );
+  }
+  birthDays();
+  setInterval(birthDays, 86400000);
+});
 client.on("message", async (message: Message) => {
   if (message.content.startsWith(`${prefix}ping`)) {
     //message.channel.send("Pong 💩");
@@ -68,6 +94,48 @@ client.on("message", async (message: Message) => {
       message.reply(devices);
     } else {
       console.log("No data found.");
+    }
+  }
+  if (message.content.startsWith(`${prefix}competencias`)) {
+    // @ts-ignore
+    if (message.member?._roles?.includes("762744622467776522")) {
+      const rows = await listCompetencias();
+      const parametros = message.content.toUpperCase().split(" ");
+      console.log(parametros);
+
+      if (
+        rows?.length &&
+        rows?.map((row) => row[0].includes(parametros[1])).includes(true)
+      ) {
+        // @ts-ignore
+        const personas = rows?.filter((row) =>
+          row.find((element) => element.includes(parametros[1]))
+        );
+        const encabezados = rows[0];
+        let respuesta =
+          "Esta persona cumple con el nombre que has ingresado: \n";
+        personas?.forEach((persona: any, index: number) => {
+          // @ts-ignore
+          persona.forEach((habilidad: any, index: any) => {
+            respuesta += `${encabezados[index]} : ${persona[index]} \n`;
+          });
+          if (respuesta.length <= 2000) {
+            message.reply(respuesta);
+          } else {
+            message.reply(
+              `La información de ${persona[0]} es tan larga que no puede ser impresa`
+            );
+          }
+          respuesta =
+            "Esta persona tambien cumple con los criterios de búsqueda: \n";
+        });
+      } else {
+        message.reply("No pude encontrar a nadie con ese nombre");
+      }
+    } else {
+      message.reply(
+        "No tienes permisos para consultar información de los recursos"
+      );
     }
   }
   if (message.content.startsWith(`${prefix}recurso`)) {
