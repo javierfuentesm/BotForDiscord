@@ -44,7 +44,6 @@ client.on("message", async (message: Message) => {
   if (message.content.startsWith(`${prefix}kick`)) {
     if (message.member?.hasPermission(["KICK_MEMBERS"])) {
       const member = message.mentions.members?.first();
-      console.log(member);
       if (member) {
         const kickedMember = await member.kick();
         message.channel.send(
@@ -101,7 +100,6 @@ client.on("message", async (message: Message) => {
     if (message.member?._roles?.includes("762744622467776522")) {
       const rows = await listCompetencias();
       const parametros = message.content.toUpperCase().split(" ");
-      console.log(parametros);
 
       if (
         rows?.length &&
@@ -141,9 +139,8 @@ client.on("message", async (message: Message) => {
   if (message.content.startsWith(`${prefix}recurso`)) {
     // @ts-ignore
     if (message.member?._roles?.includes("762744622467776522")) {
-      const rows = await listCompetencias();
+      const rows = await listRecursos();
       const parametros = message.content.toUpperCase().split(" ");
-      console.log(parametros);
 
       if (
         rows?.length &&
@@ -156,9 +153,9 @@ client.on("message", async (message: Message) => {
         const encabezados = rows[0];
         let respuesta =
           "Esta persona cumple con el nombre que has ingresado: \n";
-        personas?.forEach((persona: any, index: number) => {
+        personas?.forEach((persona: any) => {
           // @ts-ignore
-          persona.forEach((habilidad: any, index: any) => {
+          persona.forEach((dato: any, index: any) => {
             respuesta += `${encabezados[index]} : ${persona[index]} \n`;
           });
           if (respuesta.length <= 2000) {

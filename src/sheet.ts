@@ -61,7 +61,7 @@ export async function listRecursos() {
   const sheets = google.sheets({ version: "v4", auth });
   const rows = await sheets.spreadsheets.values.get({
     spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
-    range: "Recursos!C2:S",
+    range: "Recursos!C1:S",
   });
   if (rows) {
     return rows.data.values;
