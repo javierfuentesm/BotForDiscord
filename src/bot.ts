@@ -115,7 +115,11 @@ client.on("message", async (message: Message) => {
         personas?.forEach((persona: any, index: number) => {
           // @ts-ignore
           persona.forEach((habilidad: any, index: any) => {
-            respuesta += `${encabezados[index]} : ${persona[index]} \n`;
+            respuesta += `${encabezados[index]} : ${
+              persona[index] === ""
+                ? "Gis no ha llenado la información 🙃"
+                : persona[index]
+            } \n`;
           });
           if (respuesta.length <= 2000) {
             message.reply(respuesta);
