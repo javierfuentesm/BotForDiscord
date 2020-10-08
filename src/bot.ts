@@ -9,6 +9,7 @@ import {
   listCompetencias,
   listRecursos,
   listWiki,
+  listTuto,
 } from "./sheet";
 
 const bot: Client = new Client();
@@ -229,6 +230,19 @@ bot.on("message", async (message: Message) => {
       console.log("No data found.");
     }
   }
+  if (message.content.startsWith(`${prefix}help`)) {
+    const rows = await listTuto();
+    // @ts-ignore
+    if (rows?.length) {
+      let comandos = "Todo esto es lo que puedo hacer: \n";
+      rows?.forEach((row: any, index: number) => {
+        comandos += `Comando:${row[0]} -> Función ${row[1]}\n`;
+      });
+      message.reply(comandos);
+    } else {
+      console.log("No data found.");
+    }
+  }
   if (message.content.startsWith(`${prefix}Wiki`)) {
     const parametros = message.content.split(" ");
     const rows = await listWiki();
@@ -257,7 +271,6 @@ bot.on("message", async (message: Message) => {
       datos?.forEach((dato: any) => {
         // @ts-ignore
         dato.forEach((info: any, index: any) => {
-          console.log(dato);
           respuesta += `${encabezados[index]} : ${
             dato[index] === "" ? "No hay datos disponibles" : dato[index]
           } \n`;

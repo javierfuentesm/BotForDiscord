@@ -79,6 +79,17 @@ export async function listRecursos() {
     return rows.data.values;
   }
 }
+export async function listTuto() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  const rows = await sheets.spreadsheets.values.get({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: "Introduccion!A2:B",
+  });
+  if (rows) {
+    return rows.data.values;
+  }
+}
 
 async function authorize(cred: any) {
   const { client_secret, client_id, redirect_uris } = cred.installed;
