@@ -43,6 +43,18 @@ export async function listFAQ() {
     return rows.data.values;
   }
 }
+export async function listWiki() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  const rows = await sheets.spreadsheets.values.get({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: "Wiki!A1:C",
+  });
+
+  if (rows) {
+    return rows.data.values;
+  }
+}
 
 export async function listCompetencias() {
   const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));

@@ -8,6 +8,7 @@ import {
   listProjects,
   listCompetencias,
   listRecursos,
+  listWiki,
 } from "./sheet";
 
 const bot: Client = new Client();
@@ -226,6 +227,55 @@ bot.on("message", async (message: Message) => {
       }
     } else {
       console.log("No data found.");
+    }
+  }
+  if (message.content.startsWith(`${prefix}Wiki`)) {
+    const parametros = message.content.split(" ");
+    const rows = await listWiki();
+    // @ts-ignore
+    if (
+      rows?.length &&
+      (rows
+        ?.map((row) =>
+          row[0].toLowerCase().includes(parametros[1].toLowerCase())
+        )
+        .includes(true) ||
+        rows
+          ?.map((row) =>
+            row[1].toLowerCase().includes(parametros[1].toLowerCase())
+          )
+          .includes(true))
+    ) {
+      // @ts-ignore
+      const datos = rows?.filter((row) =>
+        row.find((element) =>
+          element.toLowerCase().includes(parametros[1].toLowerCase())
+        )
+      );
+      const encabezados = rows[0];
+      let respuesta = "Este registro cumple con los parametros recibidos: \n";
+      datos?.forEach((dato: any) => {
+        // @ts-ignore
+        dato.forEach((info: any, index: any) => {
+          console.log(dato);
+          respuesta += `${encabezados[index]} : ${
+            dato[index] === "" ? "No hay datos disponibles" : dato[index]
+          } \n`;
+        });
+        if (respuesta.length <= 2000) {
+          message.reply(respuesta);
+        } else {
+          message.reply(
+            `La información  es tan larga que no puede ser impresa`
+          );
+        }
+        respuesta =
+          "Esta registro tambien cumple con los criterios de búsqueda: \n";
+      });
+    } else {
+      message.reply(
+        "No pude nada relacionado a ese tema 🧐 pero puedes contrubuir 🤓"
+      );
     }
   }
 });
