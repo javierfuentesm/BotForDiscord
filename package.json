@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/bot.js",
-    "start2": "node dist/sheet.js",
+    "start2": "node dist/navegador.js",
     "dev": "nodemon -e ts --exec \"npm run build && npm run start\"",
     "dev2": "nodemon -e ts --exec \"npm run build && npm run start2\""
   },
@@ -24,6 +24,7 @@
   "devDependencies": {
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.4",
+    "playwright": "^1.4.2",
     "prettier": "^2.1.2",
     "typescript": "^4.0.3"
   }

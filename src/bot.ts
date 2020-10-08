@@ -10,9 +10,9 @@ import {
   listRecursos,
 } from "./sheet";
 
-const client: Client = new Client();
+const bot: Client = new Client();
 
-client.on("ready", () => {
+bot.on("ready", () => {
   console.log("Bot is ready");
   async function birthDays() {
     const recursos = await listRecursos();
@@ -22,7 +22,7 @@ client.on("ready", () => {
     const fecha = dia + "/" + mes + "/";
     const birthdays = recursos?.filter((recurso) => recurso[3].includes(fecha));
 
-    const anuncios = client.channels.cache.find(
+    const anuncios = bot.channels.cache.find(
       // @ts-ignore
       (channel) => channel?.name === "anuncios"
     );
@@ -36,7 +36,7 @@ client.on("ready", () => {
   birthDays();
   setInterval(birthDays, 86400000);
 });
-client.on("message", async (message: Message) => {
+bot.on("message", async (message: Message) => {
   if (message.content.startsWith(`${prefix}ping`)) {
     //message.channel.send("Pong 💩");
     message.reply("Pong 💩");
@@ -229,4 +229,4 @@ client.on("message", async (message: Message) => {
     }
   }
 });
-client.login(process.env.DISCORD_TOKEN);
+bot.login(process.env.DISCORD_TOKEN);
