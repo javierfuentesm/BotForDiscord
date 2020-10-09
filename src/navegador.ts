@@ -20,9 +20,6 @@ export const informe = async () => {
   await page.waitForSelector(
     "#content > div > div.app__content > div > div.side-by-side__left > div > div.tree__content > div > div"
   );
-  const suites = await page.innerText(
-    "#content > div > div.app__content > div > div.side-by-side__left > div > div.tree__content > div > div"
-  );
 
   const casos = [];
   for (let i = 1; i < 17; i++) {
@@ -64,10 +61,8 @@ export const informe = async () => {
 
     casos.push(caso);
   }
-  console.log(casos);
-  console.log(casosTotal);
-  // console.log(suites);
+
   await page.close();
   await browser.close();
+  return [casos, casosTotal];
 };
-informe();

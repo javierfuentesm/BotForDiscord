@@ -11,7 +11,7 @@ import {
   listWiki,
   listTuto,
 } from "./sheet";
-
+import { informe } from "./navegador";
 const bot: Client = new Client();
 
 bot.on("ready", () => {
@@ -82,6 +82,21 @@ bot.on("message", async (message: Message) => {
       message.reply(devices);
     } else {
       console.log("No data found.");
+    }
+  }
+  if (message.content.startsWith(`${prefix}reporte`)) {
+    const [casos, casosTotal] = await informe();
+
+    if (casos?.length) {
+      let resultado = `En total se ejecutaron ${casosTotal} casos de prueba: \n`;
+      // @ts-ignore
+      casos?.forEach((caso) => {
+        console.log(caso);
+        resultado += `Feature :${caso.nombre} ${
+          caso.exito ? `#Scenarios exitosos :${caso.exito}` : ""
+        } ${caso.error ? `#Scenarios fallidos :${caso.error}` : ""}\n`;
+      });
+      message.reply(resultado);
     }
   }
   if (message.content.startsWith(`${prefix}proyectos`)) {
