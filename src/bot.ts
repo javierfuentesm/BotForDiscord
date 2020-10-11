@@ -238,7 +238,7 @@ bot.on("message", async (message: Message) => {
           respuesta += `${index + 1} - ${row[0]}\n`;
         });
         respuesta +=
-          "Puedes preguntar usando ?FAQ seguido del número de la pregunta de la cual deseas que te conteste";
+          "Puedes preguntar usando ?FAQ seguido del número de la pregunta de la cual deseas que te conteste 😎";
         message.reply(respuesta);
       }
     } else {
