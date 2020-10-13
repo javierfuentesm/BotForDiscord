@@ -101,7 +101,7 @@ export async function updateData() {
     resource: {
       range: "Prueba!A1",
       majorDimension: "ROWS",
-      values: [["Prueba"]],
+      values: [["Prueba", "hola"]],
     },
   });
   if (rows) {
