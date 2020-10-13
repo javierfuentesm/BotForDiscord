@@ -10,6 +10,7 @@ import {
   listRecursos,
   listWiki,
   listTuto,
+  updateData,
 } from "./sheet";
 import { informe } from "./navegador";
 const bot: Client = new Client();
@@ -20,9 +21,14 @@ bot.on("ready", () => {
     const recursos = await listRecursos();
     const today = new Date();
     const mes = today.getMonth() + 1;
-    const dia = today.getDate();
+    let dia: any = today.getDate();
+    if (dia.toString().length === 1) {
+      dia = `0${dia}`;
+    }
     const fecha = dia + "/" + mes + "/";
-    const birthdays = recursos?.filter((recurso) => recurso[3].includes(fecha));
+    const birthdays = recursos?.filter((recurso) =>
+      recurso[3].startsWith(fecha)
+    );
 
     const anuncios = bot.channels.cache.find(
       // @ts-ignore
@@ -107,6 +113,19 @@ bot.on("message", async (message: Message) => {
       rows?.map((row: any) => {
         devices += `${row[0]}\n`;
       });
+      message.reply(devices);
+    } else {
+      console.log("No data found.");
+    }
+  }
+  if (message.content.startsWith(`${prefix}datos`)) {
+    const rows = await updateData();
+
+    if (rows?.length) {
+      let devices = "Se actualizo: \n";
+      /*      rows?.map((row: any) => {
+        devices += `${row[0]}\n`;
+      });*/
       message.reply(devices);
     } else {
       console.log("No data found.");

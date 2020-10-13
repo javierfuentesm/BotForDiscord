@@ -90,6 +90,27 @@ export async function listTuto() {
     return rows.data.values;
   }
 }
+export async function updateData() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  // @ts-ignore
+  const rows = await sheets.spreadsheets.values.update({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: "Prueba!A1",
+    valueInputOption: "USER_ENTERED",
+    resource: {
+      range: "Prueba!A1",
+      majorDimension: "ROWS",
+      values: [["Prueba"]],
+    },
+  });
+  if (rows) {
+    // @ts-ignore
+    console.log(rows.config.data.values);
+    // @ts-ignore
+    return rows.config.data.values;
+  }
+}
 
 async function authorize(cred: any) {
   const { client_secret, client_id, redirect_uris } = cred.installed;
