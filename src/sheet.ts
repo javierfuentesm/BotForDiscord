@@ -79,6 +79,17 @@ export async function listRecursos() {
     return rows.data.values;
   }
 }
+export async function listInfo() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  const rows = await sheets.spreadsheets.values.get({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: "Prueba!A2:C",
+  });
+  if (rows) {
+    return rows.data.values;
+  }
+}
 export async function listTuto() {
   const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
   const sheets = google.sheets({ version: "v4", auth });
@@ -90,16 +101,17 @@ export async function listTuto() {
     return rows.data.values;
   }
 }
-export async function updateData() {
+export async function updateData(index: number) {
   const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
   const sheets = google.sheets({ version: "v4", auth });
+  let range = 2 + index;
   // @ts-ignore
   const rows = await sheets.spreadsheets.values.update({
     spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
-    range: "Prueba!A1",
+    range: `Prueba!A${range}`,
     valueInputOption: "USER_ENTERED",
     resource: {
-      range: "Prueba!A1",
+      range: "Prueba!A2",
       majorDimension: "ROWS",
       values: [["Prueba", "hola"]],
     },

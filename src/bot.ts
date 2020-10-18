@@ -11,6 +11,7 @@ import {
   listWiki,
   listTuto,
   updateData,
+  listInfo,
 } from "./sheet";
 import { informe } from "./navegador";
 const bot: Client = new Client();
@@ -29,7 +30,6 @@ bot.on("ready", () => {
     const birthdays = recursos?.filter((recurso) =>
       recurso[3].startsWith(fecha)
     );
-
     const anuncios = bot.channels.cache.find(
       // @ts-ignore
       (channel) => channel?.name === "anuncios"
@@ -119,14 +119,27 @@ bot.on("message", async (message: Message) => {
     }
   }
   if (message.content.startsWith(`${prefix}datos`)) {
-    const rows = await updateData();
+    const parametros = message.content.split(" ");
 
-    if (rows?.length) {
-      let devices = "Se actualizo: \n";
-      /*      rows?.map((row: any) => {
-        devices += `${row[0]}\n`;
-      });*/
-      message.reply(devices);
+    const info = await listInfo();
+    let indexFinal: any;
+    const persona = info?.filter((row, index) =>
+      row.find((element) => {
+        if (element.includes("11")) {
+          indexFinal = index;
+          return element.includes("11");
+        }
+      })
+    );
+
+    const rows = await updateData(indexFinal);
+
+    if (persona?.length) {
+      let cambios = "Se actualizo: \n";
+      rows?.map((row: any) => {
+        cambios += `${row[0]}\n`;
+      });
+      message.reply(cambios);
     } else {
       console.log("No data found.");
     }
@@ -268,9 +281,10 @@ bot.on("message", async (message: Message) => {
     const rows = await listTuto();
     // @ts-ignore
     if (rows?.length) {
-      let comandos = "Todo esto es lo que puedo hacer: \n";
+      let comandos =
+        "Todo esto es lo que puedo hacer: \n" + "Comando -> Resultado esperado";
       rows?.forEach((row: any, index: number) => {
-        comandos += `Comando:${row[0]} -> Función ${row[1]}\n`;
+        comandos += `${row[0]} ---->  ${row[1]}\n`;
       });
       message.reply(comandos);
     } else {
