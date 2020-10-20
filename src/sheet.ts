@@ -90,6 +90,17 @@ export async function listInfo() {
     return rows.data.values;
   }
 }
+export async function listCurso() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  const rows = await sheets.spreadsheets.values.get({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: "Curso!A1:I",
+  });
+  if (rows) {
+    return rows.data.values;
+  }
+}
 export async function listTuto() {
   const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
   const sheets = google.sheets({ version: "v4", auth });

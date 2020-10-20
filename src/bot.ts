@@ -12,8 +12,11 @@ import {
   listTuto,
   updateData,
   listInfo,
+  listCurso,
 } from "./sheet";
 import { informe } from "./navegador";
+import { GMailService } from "./emails";
+
 const bot: Client = new Client();
 
 bot.on("ready", () => {
@@ -116,6 +119,72 @@ bot.on("message", async (message: Message) => {
       message.reply(devices);
     } else {
       console.log("No data found.");
+    }
+  }
+  if (message.content.startsWith(`${prefix}curso`)) {
+    // @ts-ignore
+    if (message.member?._roles?.includes("762744622467776522")) {
+      const students = await listCurso();
+
+      if (students?.length) {
+        let goodStudents: {}[] = [];
+        const encabezados = students[0];
+
+        students?.map((student: any) => {
+          if (student.length > 5) {
+            let goodStudent = {};
+            student.forEach((element: any, index: string | number) => {
+              // @ts-ignore
+              goodStudent[`${encabezados[index]}`] = student[index];
+            });
+            // @ts-ignore
+            goodStudent.FinalGrade =
+              // @ts-ignore
+              ((goodStudent.Homework1 === "" ? 0 : 10) +
+                // @ts-ignore
+                (goodStudent.Homework2 === "" ? 0 : +goodStudent.Homework2) +
+                // @ts-ignore
+                (goodStudent.GradeExam === undefined
+                  ? 0
+                  : // @ts-ignore
+                  goodStudent.GradeExam === ""
+                  ? 0
+                  : // @ts-ignore
+                    +goodStudent.GradeExam)) /
+              3;
+
+            goodStudents.push(goodStudent);
+          }
+        });
+        let gmailService = new GMailService();
+        gmailService.sendMail(
+          "Estatus del curso de  Git y GitHub",
+          "Git y GitHub",
+          {
+            Name: "Carlos Alonso Barrientos Roa",
+            Email: "mcmora94@gmail.com",
+            Class1: "SI",
+            Class2: "SI",
+            Homework1: "https://github.com/samuelbaezam/Pruebade-Hitss",
+            Homework2: "",
+            Exam: "Se presento sin invitacion",
+            GradeExam: "3.6",
+            FinalGrade: 4.533333333333333,
+          }
+        );
+        /*      goodStudents.forEach((student) => {
+        gmailService.sendMail(
+          "Estatus del curso de  Git y GitHub",
+          "Git y GitHub",
+          student
+        );
+      });*/
+        message.reply("Se han mandado los correos con el status");
+      } else {
+        console.log("No data found.");
+      }
+    } else {
+      message.reply("No tienes permisos para realizar esta acción");
     }
   }
   if (message.content.startsWith(`${prefix}datos`)) {
