@@ -157,28 +157,23 @@ bot.on("message", async (message: Message) => {
           }
         });
         let gmailService = new GMailService();
-        gmailService.sendMail(
-          "Estatus del curso de  Git y GitHub",
-          "Git y GitHub",
-          {
-            Name: "Carlos Alonso Barrientos Roa",
-            Email: "mcmora94@gmail.com",
-            Class1: "SI",
-            Class2: "SI",
-            Homework1: "https://github.com/samuelbaezam/Pruebade-Hitss",
-            Homework2: "",
-            Exam: "Se presento sin invitacion",
-            GradeExam: "3.6",
-            FinalGrade: 4.533333333333333,
-          }
-        );
-        /*      goodStudents.forEach((student) => {
-        gmailService.sendMail(
-          "Estatus del curso de  Git y GitHub",
-          "Git y GitHub",
-          student
-        );
-      });*/
+        goodStudents.shift();
+        const emailTimeout = (student: any) => {
+          setTimeout(
+            () =>
+              gmailService.sendMail(
+                "Estatus del curso de  Git y GitHub",
+                "Git y GitHub",
+                student
+              ),
+            3000
+          );
+        };
+
+        goodStudents.forEach((student: any) => {
+          emailTimeout(student);
+          console.log(student.Email);
+        });
         message.reply("Se han mandado los correos con el status");
       } else {
         console.log("No data found.");
