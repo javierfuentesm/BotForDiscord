@@ -158,7 +158,8 @@ bot.on("message", async (message: Message) => {
         });
         let gmailService = new GMailService();
         goodStudents.shift();
-        const emailTimeout = (student: any) => {
+        const emailTimeout = (student: any, index: number) => {
+          console.log(student);
           setTimeout(
             () =>
               gmailService.sendMail(
@@ -166,15 +167,14 @@ bot.on("message", async (message: Message) => {
                 "Git y GitHub",
                 student
               ),
-            3000
+            index * 5000
           );
         };
 
-        goodStudents.forEach((student: any) => {
-          emailTimeout(student);
-          console.log(student.Email);
+        goodStudents.forEach((student: any, index) => {
+          emailTimeout(student, index);
         });
-        message.reply("Se han mandado los correos con el status");
+        message.reply("Se estan mandado los correos con el status");
       } else {
         console.log("No data found.");
       }

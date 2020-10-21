@@ -6,7 +6,9 @@ export class GMailService {
   private _transporter: nodemailer.Transporter;
   constructor() {
     this._transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.office365.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL,
         pass: process.env.PASSWORD, // naturally, replace both with your real credentials or an application-specific password
@@ -15,7 +17,7 @@ export class GMailService {
   }
   sendMail(subject: string, course: string, student: any) {
     let options = {
-      from: process.env.email,
+      from: process.env.EMAIL,
       to: student.Email,
       subject: subject,
       html: `<!DOCTYPE html>
