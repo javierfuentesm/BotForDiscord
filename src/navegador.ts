@@ -22,6 +22,42 @@ export const informe = async () => {
   );
 
   const casos = [];
+
+  const elements = await page.$eval(
+    "#content > div > div.app__content > div > div.side-by-side__left > div > div.tree__content > div > div",
+    (feature) => {
+      const ele1 = feature.querySelectorAll("div.node");
+      const toText = (element: any) => element.innerText.trim();
+      let results: any[] = [];
+      ele1.forEach((sub2) => {
+        let result = {
+          feature: undefined,
+          scenarios: [],
+        };
+        result.feature = toText(sub2.querySelector("div.node__name"));
+        const scenarios = sub2.querySelectorAll("a.node__leaf");
+        scenarios.forEach((scenario) => {
+          const scenarioName = toText(scenario.querySelector("div.node__name"));
+
+          const status =
+            scenario
+              .querySelector("div.node__anchor")
+              ?.innerHTML?.includes("status_failed") === true
+              ? "Fallido"
+              : "Existoso";
+          // @ts-ignore
+          result.scenarios.push({ scenarioName, status });
+        });
+
+        // @ts-ignore
+        results.push(result);
+      });
+
+      return results;
+    }
+  );
+
+  console.table(elements);
   for (let i = 1; i < 17; i++) {
     let caso = {};
 

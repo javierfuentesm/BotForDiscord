@@ -343,13 +343,13 @@ export class GMailService {
                             margin-bottom: 15px;
                           "
                         >
-                        Estas son las calificaciones hasta el momento si aún no entregas la segunda tarea se registrará.Tu fecha límite es este jueves
+                        Estas son las calificaciones finales
                             </br>
                             </br>
                               Si crees que ha habido un error o deseas conocer los detalles de algo en específico contáctanos.
                           </br>
                           </br>
-                            Tendremos una sesión de preguntas y respuestas a la cuál podrás unirte si deseas
+                            Tendremos una sesión de preguntas y respuestas a la cuál podrás unirte si deseas hoy a las 3
                             <p><a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MzEyOWRhZDctMjMxYS00ZDZjLWE0MDAtZGNiZmMzNzY0N2Qz%40thread.v2/0?context=%7b%22Tid%22%3a%225fd5460a-b425-49de-9bd0-fcd26270d30c%22%2c%22Oid%22%3a%22ad02826c-801a-4a8e-9cb0-5a047abb0dd2%22%7d">Únete por medio de Teams</a></p>
                         </p>
                         <p
