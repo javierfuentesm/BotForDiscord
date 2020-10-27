@@ -38,7 +38,7 @@ export const informe = async () => {
         const scenarios = sub2.querySelectorAll("a.node__leaf");
         scenarios.forEach((scenario) => {
           const scenarioName = toText(scenario.querySelector("div.node__name"));
-
+          const date = new Date();
           const status =
             scenario
               .querySelector("div.node__anchor")
@@ -46,7 +46,7 @@ export const informe = async () => {
               ? "Fallido"
               : "Existoso";
           // @ts-ignore
-          result.scenarios.push({ scenarioName, status });
+          result.scenarios.push({ scenarioName, status, date });
         });
 
         // @ts-ignore
@@ -57,7 +57,6 @@ export const informe = async () => {
     }
   );
 
-  console.table(elements);
   for (let i = 1; i < 17; i++) {
     let caso = {};
 
@@ -100,5 +99,5 @@ export const informe = async () => {
 
   await page.close();
   await browser.close();
-  return [casos, casosTotal];
+  return [casos, casosTotal, elements];
 };

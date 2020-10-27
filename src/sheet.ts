@@ -135,6 +135,27 @@ export async function updateData(index: number) {
   }
 }
 
+export async function appendReport(values: any) {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  // @ts-ignore
+  const rows = await sheets.spreadsheets.values.append({
+    spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
+    range: `Prueba!A:D`,
+    valueInputOption: "USER_ENTERED",
+    resource: {
+      values,
+    },
+  });
+
+  if (rows) {
+    // @ts-ignore
+    console.log(rows.config.data.values);
+    // @ts-ignore
+    return rows.config.data.values;
+  }
+}
+
 async function authorize(cred: any) {
   const { client_secret, client_id, redirect_uris } = cred.installed;
   const oAuth2Client = new google.auth.OAuth2(
