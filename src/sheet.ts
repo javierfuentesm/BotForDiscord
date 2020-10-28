@@ -130,7 +130,7 @@ export async function listScenarios() {
   const sheets = google.sheets({ version: "v4", auth });
   const rows = await sheets.spreadsheets.values.get({
     spreadsheetId: "1p-ptZMLhz6Q-1920Tujw2RgmbtvUjO2SwlvptgBDKag",
-    range: "PLAN!A1:B",
+    range: "PLAN!A1:L",
   });
   if (rows) {
     return formatData(rows.data.values);

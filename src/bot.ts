@@ -50,6 +50,30 @@ bot.on("ready", () => {
   setInterval(birthDays, 86400000);
 });
 bot.on("message", async (message: Message) => {
+  if (message.webhookID === "770736134882852884") {
+    const [casos, casosTotal, elements] = await informe();
+    const scenarios = await listScenarios();
+    const findId = (name: any) =>
+      scenarios.find((scenario: { NAME_TC: any }) => scenario.NAME_TC === name)
+        .ID_TC;
+    let finalElements: any[][] = [];
+    // @ts-ignore
+    elements?.forEach((element: { scenarios: any[]; feature: any }) => {
+      element.scenarios.forEach(async (scenario: any) => {
+        finalElements.push([
+          findId(scenario.scenarioName),
+          element.feature,
+          scenario.scenarioName,
+          scenario.date,
+          scenario.status,
+        ]);
+      });
+    });
+    await appendReport(finalElements);
+    message.reply(
+      `La información ya debería de estar en el googlesheet , hubo ${casosTotal} casos en total`
+    );
+  }
   if (message.content.startsWith(`${prefix}ping`)) {
     //message.channel.send("Pong 💩");
     message.reply("Pong 💩");
