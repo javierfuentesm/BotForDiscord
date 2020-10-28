@@ -6,6 +6,19 @@ const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 const TOKEN_PATH = "token.json";
 const CRED_PATH = "src/credentials.json";
 
+export function formatData(rows: any) {
+  const rowHead = rows?.shift();
+  return rows?.map((row: { [x: string]: any }) => {
+    return rowHead?.reduce(
+      (obj: { [x: string]: any }, key: string | number, i: string | number) => {
+        obj[key] = row[i];
+        return obj;
+      },
+      {}
+    );
+  });
+}
+
 export async function listDevices() {
   const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
   const sheets = google.sheets({ version: "v4", auth });
@@ -110,6 +123,17 @@ export async function listTuto() {
   });
   if (rows) {
     return rows.data.values;
+  }
+}
+export async function listScenarios() {
+  const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
+  const sheets = google.sheets({ version: "v4", auth });
+  const rows = await sheets.spreadsheets.values.get({
+    spreadsheetId: "1p-ptZMLhz6Q-1920Tujw2RgmbtvUjO2SwlvptgBDKag",
+    range: "PLAN!A1:B",
+  });
+  if (rows) {
+    return formatData(rows.data.values);
   }
 }
 export async function updateData(index: number) {

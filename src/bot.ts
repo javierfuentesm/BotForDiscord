@@ -14,6 +14,7 @@ import {
   listInfo,
   listCurso,
   appendReport,
+  listScenarios,
 } from "./sheet";
 import { informe } from "./navegador";
 import { GMailService } from "./emails";
@@ -211,32 +212,26 @@ bot.on("message", async (message: Message) => {
   }
   if (message.content.startsWith(`${prefix}sheet`)) {
     const [casos, casosTotal, elements] = await informe();
-    console.table(elements);
-
-    const writeTimeOut = (element: any, index: number) => {
-      setTimeout(
-        () =>
-          element.scenarios.forEach((scenario: any, subindex: number) => {
-            appendTimeOut(element.feature, scenario, subindex);
-          }),
-        index * 5000
-      );
-    };
-    const appendTimeOut = (feature: any, scenario: any, index: number) => {
-      setTimeout(
-        async () =>
-          await appendReport([
-            [feature, scenario.scenarioName, scenario.date, scenario.status],
-          ]),
-        index * 3000
-      );
-    };
+    const scenarios = await listScenarios();
+    const findId = (name: any) =>
+      scenarios.find((scenario: { NAME_TC: any }) => scenario.NAME_TC === name)
+        .ID_TC;
+    let finalElements: any[][] = [];
     // @ts-ignore
-    elements.forEach((element, index: number) => {
-      writeTimeOut(element, index);
+    elements?.forEach((element: { scenarios: any[]; feature: any }) => {
+      element.scenarios.forEach(async (scenario: any) => {
+        finalElements.push([
+          findId(scenario.scenarioName),
+          element.feature,
+          scenario.scenarioName,
+          scenario.date,
+          scenario.status,
+        ]);
+      });
     });
+    await appendReport(finalElements);
     message.reply(
-      `La información ya debería de estar en el googlesheet , hubo ${casosTotal} en total`
+      `La información ya debería de estar en el googlesheet , hubo ${casosTotal} casos en total`
     );
   }
   if (message.content.startsWith(`${prefix}competencias`)) {
