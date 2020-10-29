@@ -21,8 +21,6 @@ export const informe = async () => {
     "#content > div > div.app__content > div > div.side-by-side__left > div > div.tree__content > div > div"
   );
 
-  const casos = [];
-
   const elements = await page.$eval(
     "#content > div > div.app__content > div > div.side-by-side__left > div > div.tree__content > div > div",
     (feature) => {
@@ -56,8 +54,8 @@ export const informe = async () => {
       return results;
     }
   );
-
-  for (let i = 1; i < 17; i++) {
+  const casos = [];
+  for (let i = 1; i < elements.length; i++) {
     let caso = {};
 
     // @ts-ignore
