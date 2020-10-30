@@ -14,6 +14,9 @@ export const informe = async () => {
   const casosTotal = await page.textContent(
     "#content > div > div.app__content > div > div:nth-child(1) > div:nth-child(1) > div.widget__body > div > div > div:nth-child(1) > div > div.splash__title"
   );
+  const buildJenkins = await page.textContent(
+    'document.querySelector("#content > div > div.app__content > div > div:nth-child(2) > div:nth-child(3) > div.widget__body > div > div > span > div.table__col.table__col_right.executor > a")'
+  );
   await page.click(
     "#content > div > div.app__content > div > div:nth-child(1) > div:nth-child(2) > div.widget__body > div > div > a:nth-child(11) > div"
   );
@@ -97,5 +100,5 @@ export const informe = async () => {
 
   await page.close();
   await browser.close();
-  return [casos, casosTotal, elements];
+  return [casos, casosTotal, elements, buildJenkins];
 };

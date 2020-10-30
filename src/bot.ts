@@ -20,7 +20,6 @@ import { informe } from "./navegador";
 import { GMailService } from "./emails";
 
 const bot: Client = new Client();
-
 bot.on("ready", () => {
   console.log("Bot is ready");
   async function birthDays() {
@@ -50,8 +49,13 @@ bot.on("ready", () => {
   setInterval(birthDays, 86400000);
 });
 bot.on("message", async (message: Message) => {
-  if (message.webhookID === "770736134882852884") {
-    const [casos, casosTotal, elements] = await informe();
+  if (
+    message.webhookID === "770736134882852884" ||
+    (message.content.startsWith(`${prefix}sheet`) &&
+      // @ts-ignore
+      message.member?._roles?.includes("762744622467776522"))
+  ) {
+    const [casos, casosTotal, elements, buildJenkins] = await informe();
     if (elements) {
       const scenarios = await listScenarios();
       const findId = (name: any) =>
@@ -72,7 +76,8 @@ bot.on("message", async (message: Message) => {
         });
       });
       await appendReport(finalElements);
-      let respuesta = `La información ya debería de estar en el googlesheet , hubo ${casosTotal} casos en total y este es un pequeño resumen \n`;
+
+      let respuesta = `La información ya debería de estar en el googlesheet que corresponden al build ${buildJenkins} , hubo ${casosTotal} casos en total y este es un pequeño resumen \n`;
       // @ts-ignore
       casos?.forEach((caso) => {
         console.log(caso);
@@ -242,30 +247,6 @@ bot.on("message", async (message: Message) => {
     } else {
       console.log("No data found.");
     }
-  }
-  if (message.content.startsWith(`${prefix}sheet`)) {
-    const [casos, casosTotal, elements] = await informe();
-    const scenarios = await listScenarios();
-    const findId = (name: any) =>
-      scenarios.find((scenario: { NAME_TC: any }) => scenario.NAME_TC === name)
-        .ID_TC;
-    let finalElements: any[][] = [];
-    // @ts-ignore
-    elements?.forEach((element: { scenarios: any[]; feature: any }) => {
-      element.scenarios.forEach(async (scenario: any) => {
-        finalElements.push([
-          findId(scenario.scenarioName),
-          element.feature,
-          scenario.scenarioName,
-          scenario.date,
-          scenario.status,
-        ]);
-      });
-    });
-    await appendReport(finalElements);
-    message.reply(
-      `La información ya debería de estar en el googlesheet , hubo ${casosTotal} casos en total`
-    );
   }
   if (message.content.startsWith(`${prefix}competencias`)) {
     // @ts-ignore
