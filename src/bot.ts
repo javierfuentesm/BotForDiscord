@@ -369,7 +369,7 @@ bot.on("message", async (message: Message) => {
         }
       } else {
         let respuesta =
-          "No me mandaste ninguna pregunta aquí estan las preguntas que estan en mi Base de datos : \n";
+          "No me mandaste ninguna pregunta aquí estan las preguntas que están en mi Base de datos : \n";
         rows?.forEach((row: any, index: number) => {
           respuesta += `${index + 1} - ${row[0]}\n`;
         });
