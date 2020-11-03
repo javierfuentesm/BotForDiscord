@@ -1,5 +1,3 @@
-import { config } from "dotenv";
-config();
 import { Client, DMChannel, Message } from "discord.js";
 import { prefix } from "./config.json";
 import {

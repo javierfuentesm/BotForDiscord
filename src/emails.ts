@@ -1,7 +1,4 @@
 import * as nodemailer from "nodemailer";
-import { config } from "dotenv";
-config();
-
 export class GMailService {
   private _transporter: nodemailer.Transporter;
   constructor() {
