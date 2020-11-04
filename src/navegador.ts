@@ -5,7 +5,6 @@ import { chromium } from "playwright-chromium";
 export const informe = async () => {
   browser = await chromium.launch({ chromiumSandbox: false });
   page = await browser.newPage();
-
   await page
     .goto("https://claropaymovil.vercel.app", {
       waitUntil: "networkidle",
