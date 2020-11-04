@@ -1,8 +1,8 @@
-let page: import("playwright-chromium").Page;
+let page: any;
 let browser: any;
 import { chromium } from "playwright-chromium";
 export const informe = async () => {
-  browser = await { chromium }["chromium"].launch({ chromiumSandbox: false });
+  browser = await chromium.launch({ chromiumSandbox: false });
   page = await browser.newPage();
   await page
     .goto("https://claropaymovil.vercel.app", {
@@ -25,33 +25,46 @@ export const informe = async () => {
 
   const elements = await page.$eval(
     "#content > div > div.app__content > div > div.side-by-side__left > div > div.tree__content > div > div",
-    (feature) => {
+    (feature: { querySelectorAll: (arg0: string) => any }) => {
       const ele1 = feature.querySelectorAll("div.node");
       const toText = (element: any) => element.innerText.trim();
       let results: any[] = [];
-      ele1.forEach((sub2) => {
-        let result = {
-          feature: undefined,
-          scenarios: [],
-        };
-        result.feature = toText(sub2.querySelector("div.node__name"));
-        const scenarios = sub2.querySelectorAll("a.node__leaf");
-        scenarios.forEach((scenario) => {
-          const scenarioName = toText(scenario.querySelector("div.node__name"));
-          const date = new Date();
-          const status =
-            scenario
-              .querySelector("div.node__anchor")
-              ?.innerHTML?.includes("status_failed") === true
-              ? "Fallido"
-              : "Existoso";
-          // @ts-ignore
-          result.scenarios.push({ scenarioName, status, date });
-        });
+      ele1.forEach(
+        (sub2: {
+          querySelector: (arg0: string) => any;
+          querySelectorAll: (arg0: string) => any;
+        }) => {
+          let result = {
+            feature: undefined,
+            scenarios: [],
+          };
+          result.feature = toText(sub2.querySelector("div.node__name"));
+          const scenarios = sub2.querySelectorAll("a.node__leaf");
+          scenarios.forEach(
+            (scenario: {
+              querySelector: (
+                arg0: string
+              ) => { (): any; new (): any; innerHTML: string | string[] };
+            }) => {
+              const scenarioName = toText(
+                scenario.querySelector("div.node__name")
+              );
+              const date = new Date();
+              const status =
+                scenario
+                  .querySelector("div.node__anchor")
+                  ?.innerHTML?.includes("status_failed") === true
+                  ? "Fallido"
+                  : "Existoso";
+              // @ts-ignore
+              result.scenarios.push({ scenarioName, status, date });
+            }
+          );
 
-        // @ts-ignore
-        results.push(result);
-      });
+          // @ts-ignore
+          results.push(result);
+        }
+      );
 
       return results;
     }
