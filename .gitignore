@@ -3,4 +3,3 @@ dist
 .idea
 .env
 token.json
-src/credentials.json
