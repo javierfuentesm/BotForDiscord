@@ -1,4 +1,4 @@
-let page: import("playwright").Page;
+let page: import("playwright-chromium").Page;
 let browser: any;
 import { chromium } from "playwright-chromium";
 export const informe = async () => {
