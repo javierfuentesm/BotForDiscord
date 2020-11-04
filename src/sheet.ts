@@ -18,7 +18,6 @@ export function formatData(rows: any) {
     );
   });
 }
-
 export async function listDevices() {
   const auth = await authorize(JSON.parse(fs.readFileSync(CRED_PATH, "utf8")));
   const sheets = google.sheets({ version: "v4", auth });
