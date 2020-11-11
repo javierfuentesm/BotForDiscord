@@ -1,6 +1,5 @@
 let page: import("playwright-chromium").Page;
 let browser: any;
-var moment = require("moment-timezone");
 import { chromium } from "playwright-chromium";
 export const informe = async () => {
   browser = await chromium.launch({ chromiumSandbox: false });
@@ -39,7 +38,14 @@ export const informe = async () => {
         const scenarios = sub2.querySelectorAll("a.node__leaf");
         scenarios.forEach((scenario) => {
           const scenarioName = toText(scenario.querySelector("div.node__name"));
-          const date = moment().tz("America/Mexico_City").format();
+          const date = new Date();
+          date.toLocaleDateString("es-MX", {
+            month: "long",
+            day: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            timeZone: "America/Mexico_City",
+          });
           const status =
             scenario
               .querySelector("div.node__anchor")
