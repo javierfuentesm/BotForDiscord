@@ -1,6 +1,6 @@
 let page: import("playwright-chromium").Page;
 let browser: any;
-let moment = require("moment-timezone");
+var moment = require("moment-timezone");
 import { chromium } from "playwright-chromium";
 export const informe = async () => {
   browser = await chromium.launch({ chromiumSandbox: false });
