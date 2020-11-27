@@ -75,7 +75,7 @@ bot.on("message", async (message: Message) => {
       });
       await appendReport(finalElements);
 
-      let respuesta = `La información ya debería de estar en el googlesheet que corresponden al build ${buildJenkins} , hubo ${casosTotal} casos en total y este es un pequeño resumen \n`;
+      let respuesta = `La información que corresponden al build ${buildJenkins}  se ha agregado a la hoja de Googlesheets, hubo ${casosTotal} casos en total y este es un pequeño resumen \n`;
       // @ts-ignore
       casos?.forEach((caso) => {
         console.log(caso);
