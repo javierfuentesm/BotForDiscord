@@ -298,11 +298,7 @@ export class GMailService {
                           <tbody>
                             <tr>
                               <td>Tarea 1</td>
-                              <td>${
-                                student.Tarea1 === ""
-                                  ? 0
-                                  : `10 y este es el link de tu tarea ${student.Tarea1}`
-                              }</td>
+                              <td>${student.Tarea1}</td>
                             </tr>   
                             <tr>
                               <td>Tarea 2</td>
@@ -324,13 +320,7 @@ export class GMailService {
                             </tr>
                             <tr>
                               <td>Examen</td>
-                              <td>${
-                                student.Examen === undefined
-                                  ? 0
-                                  : student.Examen === ""
-                                  ? 0
-                                  : +student.Examen
-                              }</td>
+                              <td>${student.Examen}</td>
                             </tr>
                             <tr class="active-row">
                               <td>Total</td>
