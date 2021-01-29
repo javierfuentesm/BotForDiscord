@@ -175,21 +175,6 @@ bot.on("message", async (message: Message) => {
               // @ts-ignore
               goodStudent[`${encabezados[index]}`] = student[index];
             });
-            // @ts-ignore
-            goodStudent.FinalGrade =
-              // @ts-ignore
-              ((goodStudent.Homework1 === "" ? 0 : 10) +
-                // @ts-ignore
-                (goodStudent.Homework2 === "" ? 0 : +goodStudent.Homework2) +
-                // @ts-ignore
-                (goodStudent.GradeExam === undefined
-                  ? 0
-                  : // @ts-ignore
-                  goodStudent.GradeExam === ""
-                  ? 0
-                  : // @ts-ignore
-                    +goodStudent.GradeExam)) /
-              3;
 
             goodStudents.push(goodStudent);
           }
@@ -201,8 +186,8 @@ bot.on("message", async (message: Message) => {
           setTimeout(
             () =>
               gmailService.sendMail(
-                "Estatus del curso de  Git y GitHub",
-                "Git y GitHub",
+                "Estatus del curso de  terminal y linea de comandos",
+                "Terminal y linea de comandos",
                 student
               ),
             index * 5000

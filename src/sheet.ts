@@ -107,7 +107,7 @@ export async function listCurso() {
   const sheets = google.sheets({ version: "v4", auth });
   const rows = await sheets.spreadsheets.values.get({
     spreadsheetId: "1E9POZ7MslZ6HYcaosedSS7DMTEkg6zUIoUcXKcBGLxU",
-    range: "Curso!A1:I",
+    range: "Terminal!A1:L",
   });
   if (rows) {
     return rows.data.values;

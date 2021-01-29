@@ -22,7 +22,7 @@ export class GMailService {
   <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Simple Transactional Email</title>
+    <title>Informe de Linea de comandos</title>
     <style>
       /* -------------------------------------
             INLINED WITH htmlemail.io/inline
@@ -253,8 +253,9 @@ export class GMailService {
                     "
                   >
                     <tr>
-                  <img align="left" style="height:50px;width:110px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Git-logo.svg/1280px-Git-logo.svg.png" alt="">
-                      <td
+                  <img align="left" style="height:50px;width:110px;" src="https://miro.medium.com/max/7654/1*KDZTfB2dvoNUgqc3AVqDAQ.jpeg" alt="">
+                    
+                  <td
                         style="
                           font-family: sans-serif;
                           font-size: 14px;
@@ -272,7 +273,7 @@ export class GMailService {
                         >
                         </br>
                           Hola ${student.Name}
-                 <img align="right" style="height:110px;width:130px;" src="https://github.githubassets.com/images/modules/logos_page/Octocat.png" alt="">
+                 <img align="right" style="height:110px;width:130px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAclBMVEU3R0/P2N3///+Spq1WY2kzREzW3+QpPEUmOkOnrK8sPke7v8COo6rO19zS2+AyQ0uNlZlcaG4fNT/o7O+ZrLP19vbKztDf4OG2w8k9TFTv8fOfsbe8yM7F0NWpub+tvMKGjpNKWF9zfoJncndEU1qVm56M3MwOAAADiklEQVR4nO3d0XKiMBQG4BgEFIFUhKIoumj7/q+4ICAJgttti5Dj/9105kwv8jcnJLZlwngt2lj+jAbf2kS3XKz6mlie5409sl+TZ7ESNaFFKF4pzygljGbU8hW8WVQnjCjmK3hRlXDsgQyoTGhRncJ8Eq0iYUI3YB4xyRMSnsLrJDKyj5mSF7EN8YQbRrpJizZlVM6ifXzWUbvqrH6pODEdCbd7wwhPnjryQ38xnXbGdkI/NVwj5xoHaeBpWBbdbWfxKSP9rnbC1Ki5TUSp2ET0muJpyrPYTmhI0qrmh03NvRX37n1xitSE/taVwhyrqTlIRWNfFVO5GE54ElsJ9/IchuVW6R/lolEVT3JCY8KT2EqoZHGrMKFSLMOoPwv38PSBf9nLJVTC1A2phKka0j9q2qXK6qqfNFvlSVN9q/L4CZ876P/S2i08adjNHtDZj/IWstXmWTrzm6mR9vFmZ7jtIEpxP+GA96e2Q3lqUw4qTfEoFatTW1580li/5+7k7afH0HWNo3Ke9r1TUdwflMmqi4MP8ke6Pj15uXbfdRdnGvwpoCMhMUioPyTUHxLqDwn1h4T6e4GEFnVsTh0zqWMAAAAAAAAAQJ5wxh7BwJzLWzD2GAblzCP+h3JEZ168+PW2GHscgylmkHREZ12/Zkp0LdYzWCC5FsWaSyg26mLFlYgEZ9F+VyISbFSzHZFeo5oLNSLBtXgX8QUalWDEF2zUF4hIsFGxFglAo1LQjvhG79dTThbJCaMPav+DI7KNEnAtxh7RLxO7RGnSObUmFR9KwIhewHaLkgv4QT0go74GM6xBvdHfJnbkWzQh3qLU16D5hTXoLPpN/+iqfuztXIPOctXvPP2IIv5XiwYx7/c5/aY22S1Az1NU94RMmPHjbUL7hMy040cBCSRkZjGL/dsEgYT5J4v4wVGNQsL84PbgqOZ8Lvtdpr9blB6+2ebY/XQJCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALuxBzCwHcuoXWeoMjOmwY0pPyHObGmPPYhB2UsW07s6VRbEjJO7dlMm1pzxFeVJDN7zhPyiyY0i3+CceZEwYVQ3DLO4ojJPyOOAZkTzehlOkZDHjGKjOuW1XNeEPDkH1J6oIriU1+Ox6gKj1TqwBZVmNYUdrOvb8djtkqZ4ec5oHMN32XnZXEf1F0M4ZaE0Kfl1AAAAAElFTkSuQmCC" alt="">
 
                         </p>
                         <p
@@ -298,35 +299,42 @@ export class GMailService {
                             <tr>
                               <td>Tarea 1</td>
                               <td>${
-                                student.Homework1 === ""
+                                student.Tarea1 === ""
                                   ? 0
-                                  : `10 y este es el link de tu tarea ${student.Homework1}`
+                                  : `10 y este es el link de tu tarea ${student.Tarea1}`
                               }</td>
                             </tr>   
                             <tr>
                               <td>Tarea 2</td>
                               <td>${
-                                student.Homework2 === ""
-                                  ? 0
-                                  : +student.Homework2
+                                student.Tarea2 === "" ? 0 : +student.Tarea2
+                              }</td>
+                            </tr>
+                            <tr>
+                              <td>Tarea 3</td>
+                              <td>${
+                                student.Tarea3 === "" ? 0 : +student.Tarea3
+                              }</td>
+                            </tr>
+                            <tr>
+                              <td>Tarea 4</td>
+                              <td>${
+                                student.Tarea === "" ? 0 : +student.Tarea4
                               }</td>
                             </tr>
                             <tr>
                               <td>Examen</td>
                               <td>${
-                                student.GradeExam === undefined
+                                student.Examen === undefined
                                   ? 0
-                                  : student.GradeExam === ""
+                                  : student.Examen === ""
                                   ? 0
-                                  : +student.GradeExam
+                                  : +student.Examen
                               }</td>
                             </tr>
                             <tr class="active-row">
                               <td>Total</td>
-                              <td>${+String(student.FinalGrade).slice(
-                                0,
-                                3
-                              )}</td>
+                              <td>${student.Final}</td>
                             </tr>
                             <!-- and so on... -->
                           </tbody>
@@ -346,9 +354,7 @@ export class GMailService {
                               Si crees que ha habido un error o deseas conocer los detalles de algo en específico contáctanos.
                           </br>
                           </br>
-                            Tendremos una sesión de preguntas y respuestas a la cuál podrás unirte si deseas hoy a las 3
-                            <p><a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_MzEyOWRhZDctMjMxYS00ZDZjLWE0MDAtZGNiZmMzNzY0N2Qz%40thread.v2/0?context=%7b%22Tid%22%3a%225fd5460a-b425-49de-9bd0-fcd26270d30c%22%2c%22Oid%22%3a%22ad02826c-801a-4a8e-9cb0-5a047abb0dd2%22%7d">Únete por medio de Teams</a></p>
-                        </p>
+                            </p>
                         <p
                           style="
                             font-family: sans-serif;
